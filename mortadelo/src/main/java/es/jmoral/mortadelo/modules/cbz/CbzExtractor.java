@@ -27,38 +27,38 @@ public class CbzExtractor extends BaseExtractor {
 
     @Override
     public void extractComic(final String pathComic) {
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<Bitmap> pages = new ArrayList<>();
-                Comic comic = new Comic();
-                boolean reverse = false;
-                try {
-                    FileInputStream fis = new FileInputStream(pathComic);
-                    ZipInputStream zis = new ZipInputStream(fis);
-                    ZipEntry ze;
+        ArrayList<Bitmap> pages = new ArrayList<>();
+        Comic comic = new Comic();
+        boolean reverse = false;
+        try {
+            FileInputStream fis = new FileInputStream(pathComic);
+            ZipInputStream zis = new ZipInputStream(fis);
+            ZipEntry ze;
 
-                    while ((ze = zis.getNextEntry()) != null) {
-                        if (ze.isDirectory()) {
-                            reverse = true;
-                            continue;
-                        }
-
-                        pages.add(BitmapFactory.decodeStream(zis));
-                    }
-
-                    if (reverse)
-                        Collections.reverse(pages);
-
-                    comic.setCover(pages.get(0));
-                    comic.setPages(pages);
-
-                } catch (IOException e) {
-                    comicReceivedListener.onComicFailed();
+            while ((ze = zis.getNextEntry()) != null) {
+                if (ze.isDirectory()) {
+                    reverse = true;
+                    continue;
                 }
 
-                comicReceivedListener.onComicReceived(comic);
+                pages.add(BitmapFactory.decodeStream(zis));
             }
-        });
+
+            if (pages.size() == 0) {
+                comicReceivedListener.onComicFailed();
+                return;
+            }
+
+            if (reverse)
+                Collections.reverse(pages);
+
+            comic.setCover(pages.get(0));
+            comic.setPages(pages);
+
+        } catch (Exception e) {
+            comicReceivedListener.onComicFailed();
+        }
+
+        comicReceivedListener.onComicReceived(comic);
     }
 }

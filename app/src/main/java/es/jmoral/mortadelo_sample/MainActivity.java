@@ -27,6 +27,6 @@ public class MainActivity extends AppCompatActivity {
             public void onComicFailed() {
 
             }
-        }).obtainComic("/sdcard/Download/test.cbz");
+        }).obtainComic("/mnt/sdcard/Download/test.cbz");
     }
 }
