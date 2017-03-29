@@ -7,7 +7,7 @@ import es.jmoral.mortadelo.listeners.ComicReceivedListener;
  */
 
 public abstract class BaseExtractor {
-    private ComicReceivedListener comicReceivedListener;
+    protected ComicReceivedListener comicReceivedListener;
 
     public BaseExtractor(ComicReceivedListener comicReceivedListener) {
         this.comicReceivedListener = comicReceivedListener;

@@ -1,6 +1,9 @@
 package es.jmoral.mortadelo;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.io.IOException;
 
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.modules.BaseExtractor;
@@ -16,12 +19,12 @@ public class Mortadelo {
         CBR, CBZ, UNKNOWN;
 
         static ComicExt parseExt(String pathComic) {
-            final String[] segments = pathComic.split(".");
+            final String extension = pathComic.substring(pathComic.lastIndexOf(".") + 1);
 
-            if (segments.length == 0)
+            if (extension.length() == 0)
                 return UNKNOWN;
 
-            switch (segments[segments.length - 1].toLowerCase()) {
+            switch (extension) {
                 case "cbr":
                 case "rar":
                     return CBR;
@@ -51,7 +54,8 @@ public class Mortadelo {
                 extractor = new CbzExtractor(comicReceivedListener);
                 break;
             case UNKNOWN:
-                throw new UnsupportedOperationException("Unknown file type.");
+                comicReceivedListener.onComicFailed();
+                return;
         }
 
         extractor.extractComic(pathComic);
