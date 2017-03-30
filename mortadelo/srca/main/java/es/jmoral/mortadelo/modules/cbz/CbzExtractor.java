@@ -45,7 +45,7 @@ public class CbzExtractor extends BaseExtractor {
             }
 
             if (pages.size() == 0) {
-                comicReceivedListener.onComicFailed("Empty comic.");
+                comicReceivedListener.onComicFailed();
                 return;
             }
 
@@ -56,8 +56,7 @@ public class CbzExtractor extends BaseExtractor {
             comic.setPages(pages);
 
         } catch (Exception e) {
-            comicReceivedListener.onComicFailed(e.getMessage());
-            return;
+            comicReceivedListener.onComicFailed();
         }
 
         comicReceivedListener.onComicReceived(comic);

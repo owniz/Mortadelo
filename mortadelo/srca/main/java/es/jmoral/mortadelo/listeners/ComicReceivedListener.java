@@ -8,5 +8,5 @@ import es.jmoral.mortadelo.models.Comic;
 
 public interface ComicReceivedListener {
     void onComicReceived(Comic comic);
-    void onComicFailed(String message);
+    void onComicFailed();
 }

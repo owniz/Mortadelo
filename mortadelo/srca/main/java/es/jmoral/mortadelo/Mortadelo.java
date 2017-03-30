@@ -1,6 +1,9 @@
 package es.jmoral.mortadelo;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.io.IOException;
 
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.modules.BaseExtractor;
@@ -51,7 +54,7 @@ public class Mortadelo {
                 extractor = new CbzExtractor(comicReceivedListener);
                 break;
             case UNKNOWN:
-                comicReceivedListener.onComicFailed("Unknown file type.");
+                comicReceivedListener.onComicFailed();
                 return;
         }
 
