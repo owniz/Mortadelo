@@ -9,16 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Comic {
-    private Bitmap cover;
     private ArrayList<Bitmap> pages;
-
-    public Bitmap getCover() {
-        return cover;
-    }
-
-    public void setCover(Bitmap cover) {
-        this.cover = cover;
-    }
 
     public ArrayList<Bitmap> getPages() {
         return pages;

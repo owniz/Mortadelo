@@ -2,13 +2,10 @@ package es.jmoral.mortadelo.modules.cbz;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -52,7 +49,6 @@ public class CbzExtractor extends BaseExtractor {
             if (reverse)
                 Collections.reverse(pages);
 
-            comic.setCover(pages.get(0));
             comic.setPages(pages);
 
         } catch (Exception e) {
