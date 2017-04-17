@@ -3,6 +3,7 @@ package es.jmoral.mortadelo.modules.cbz;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.zip.ZipInputStream;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.models.Comic;
 import es.jmoral.mortadelo.modules.BaseExtractor;
+import es.jmoral.mortadelo.utils.MD5;
 
 /**
  * Created by owniz on 27/03/17.
@@ -27,10 +29,13 @@ public class CbzExtractor extends BaseExtractor {
         ArrayList<Bitmap> pages = new ArrayList<>();
         Comic comic = new Comic();
         boolean reverse = false;
+
         try {
             FileInputStream fis = new FileInputStream(pathComic);
             ZipInputStream zis = new ZipInputStream(fis);
             ZipEntry ze;
+
+            comic.setMD5hash(MD5.calculateMD5(new File(pathComic)));
 
             while ((ze = zis.getNextEntry()) != null) {
                 if (ze.isDirectory()) {

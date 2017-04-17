@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class Comic {
     private ArrayList<Bitmap> pages;
+    private String MD5hash;
 
     public ArrayList<Bitmap> getPages() {
         return pages;
@@ -17,5 +18,13 @@ public class Comic {
 
     public void setPages(ArrayList<Bitmap> pages) {
         this.pages = pages;
+    }
+
+    public String getMD5hash() {
+        return MD5hash;
+    }
+
+    public void setMD5hash(String MD5hash) {
+        this.MD5hash = MD5hash;
     }
 }

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import es.jmoral.mortadelo.Mortadelo;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
@@ -54,12 +55,13 @@ public class MainActivity extends AppCompatActivity {
         new Mortadelo(new ComicReceivedListener() {
             @Override
             public void onComicReceived(Comic comic) {
-                ((ImageView) findViewById(R.id.testCover)).setImageBitmap(comic.getPages().get(0));
+                //((ImageView) findViewById(R.id.testCover)).setImageBitmap(comic.getPages().get(0));
+                ((TextView) findViewById(R.id.textView)).setText(comic.getMD5hash());
             }
 
             @Override
             public void onComicFailed(String message) {
-                Log.d("hola", message);
+
             }
         }).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbz");
     }
