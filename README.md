@@ -1,2 +1,2 @@
 # Mortadelo
-A library for extracting comic files.
+A library for extracting comic files. (Working)
