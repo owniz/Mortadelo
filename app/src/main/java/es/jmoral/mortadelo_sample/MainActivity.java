@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onComicFailed(String message) {
-
+                Log.d("error", message);
             }
         }).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbz");
     }

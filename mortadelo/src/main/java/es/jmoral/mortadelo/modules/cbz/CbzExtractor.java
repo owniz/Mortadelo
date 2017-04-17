@@ -44,6 +44,7 @@ public class CbzExtractor extends BaseExtractor {
                 }
 
                 pages.add(BitmapFactory.decodeStream(zis));
+                zis.closeEntry();
             }
 
             if (pages.size() == 0) {
