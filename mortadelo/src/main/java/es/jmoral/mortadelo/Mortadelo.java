@@ -1,7 +1,9 @@
 package es.jmoral.mortadelo;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import es.jmoral.mortadelo.listeners.ComicExtractionUpdateListener;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.modules.BaseExtractor;
 import es.jmoral.mortadelo.modules.cbr.CbrExtractor;
@@ -12,6 +14,10 @@ import es.jmoral.mortadelo.modules.cbz.CbzExtractor;
  */
 
 public class Mortadelo {
+    private final Context context;
+    private ComicReceivedListener comicReceivedListener;
+    private final ComicExtractionUpdateListener comicExtractionUpdateListener;
+
     private enum ComicExt {
         CBR, CBZ, UNKNOWN;
 
@@ -34,10 +40,11 @@ public class Mortadelo {
         }
     }
 
-    private ComicReceivedListener comicReceivedListener;
-
-    public Mortadelo(ComicReceivedListener comicReceivedListener) {
+    public Mortadelo(@NonNull Context context, ComicReceivedListener comicReceivedListener,
+                     ComicExtractionUpdateListener comicExtractionUpdateListener) {
+        this.context = context;
         this.comicReceivedListener = comicReceivedListener;
+        this.comicExtractionUpdateListener = comicExtractionUpdateListener;
     }
 
     public void obtainComic(@NonNull String pathComic) {
@@ -55,6 +62,6 @@ public class Mortadelo {
                 return;
         }
 
-        extractor.extractComic(pathComic);
+        extractor.extractComic(context, pathComic, comicExtractionUpdateListener);
     }
 }

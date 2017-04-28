@@ -1,5 +1,9 @@
 package es.jmoral.mortadelo.modules.cbr;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import es.jmoral.mortadelo.listeners.ComicExtractionUpdateListener;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.modules.BaseExtractor;
 
@@ -13,7 +17,8 @@ public class CbrExtractor extends BaseExtractor {
     }
 
     @Override
-    public void extractComic(String pathComic) {
+    public void extractComic(@NonNull Context context, String pathComic,
+                             ComicExtractionUpdateListener comicExtractionUpdateListener) {
         
     }
 }

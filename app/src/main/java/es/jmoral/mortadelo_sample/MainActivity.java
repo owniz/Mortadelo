@@ -3,21 +3,23 @@ package es.jmoral.mortadelo_sample;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import es.jmoral.mortadelo.Mortadelo;
+import es.jmoral.mortadelo.listeners.ComicExtractionUpdateListener;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.models.Comic;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ComicExtractionUpdateListener {
     private static final int REQUEST_EXTERNAL_STORAGE = 1337;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -52,18 +54,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void readComic() {
-        new Mortadelo(new ComicReceivedListener() {
+        new Mortadelo(this, new ComicReceivedListener() {
             @Override
             public void onComicReceived(Comic comic) {
-                //((ImageView) findViewById(R.id.testCover)).setImageBitmap(comic.getPages().get(0));
-                ((TextView) findViewById(R.id.textView)).setText(comic.getMD5hash());
+                Glide.with(MainActivity.this).load(comic.getPages().get(0)).into((ImageView) findViewById(R.id.testCover));
+                //((TextView) findViewById(R.id.textView)).setText(comic.getMD5hash());
             }
 
             @Override
             public void onComicFailed(String message) {
                 Log.d("error", message);
             }
-        }).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/Dragon Ball Super - Tomo #01.cbz");
+        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbz");
     }
 
     @Override
@@ -75,5 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onExtractionUpdate(int percentage) {
+        Log.d("PERCENTAGE: ", percentage+"");
     }
 }

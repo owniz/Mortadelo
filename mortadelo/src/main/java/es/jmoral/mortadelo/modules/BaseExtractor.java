@@ -1,5 +1,9 @@
 package es.jmoral.mortadelo.modules;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import es.jmoral.mortadelo.listeners.ComicExtractionUpdateListener;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 
 /**
@@ -13,5 +17,6 @@ public abstract class BaseExtractor {
         this.comicReceivedListener = comicReceivedListener;
     }
 
-    public abstract void extractComic(String pathComic);
+    public abstract void extractComic(@NonNull Context context, String pathComic,
+                                      ComicExtractionUpdateListener comicExtractionUpdateListener);
 }

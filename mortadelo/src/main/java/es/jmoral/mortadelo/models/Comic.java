@@ -1,7 +1,5 @@
 package es.jmoral.mortadelo.models;
 
-import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 
 /**
@@ -9,14 +7,14 @@ import java.util.ArrayList;
  */
 
 public class Comic {
-    private ArrayList<Bitmap> pages;
+    private ArrayList<String> pages;
     private String MD5hash;
 
-    public ArrayList<Bitmap> getPages() {
+    public ArrayList<String> getPages() {
         return pages;
     }
 
-    public void setPages(ArrayList<Bitmap> pages) {
+    public void setPages(ArrayList<String> pages) {
         this.pages = pages;
     }
 
