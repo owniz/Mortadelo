@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onComicFailed(String message) {
                 Log.d("error", message);
             }
-        }).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbz");
+        }).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/Dragon Ball Super - Tomo #01.cbz");
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
@@ -29,10 +30,11 @@ public class CbzExtractor extends BaseExtractor {
         ArrayList<Bitmap> pages = new ArrayList<>();
         Comic comic = new Comic();
         boolean reverse = false;
+        ZipInputStream zis = null;
 
         try {
             FileInputStream fis = new FileInputStream(pathComic);
-            ZipInputStream zis = new ZipInputStream(fis);
+            zis = new ZipInputStream(fis);
             ZipEntry ze;
 
             comic.setMD5hash(MD5.calculateMD5(new File(pathComic)));
@@ -44,7 +46,6 @@ public class CbzExtractor extends BaseExtractor {
                 }
 
                 pages.add(BitmapFactory.decodeStream(zis));
-                zis.closeEntry();
             }
 
             if (pages.size() == 0) {
@@ -60,6 +61,13 @@ public class CbzExtractor extends BaseExtractor {
         } catch (Exception e) {
             comicReceivedListener.onComicFailed(e.getMessage());
             return;
+        } finally {
+            if (zis != null)
+                try {
+                    zis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
 
         comicReceivedListener.onComicReceived(comic);
