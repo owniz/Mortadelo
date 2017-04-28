@@ -2,6 +2,8 @@ package es.jmoral.mortadelo_sample;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements ComicExtractionUp
             public void onComicFailed(String message) {
                 Log.d("error", message);
             }
-        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbz");
+        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/kinCon.cbz");
     }
 
     @Override

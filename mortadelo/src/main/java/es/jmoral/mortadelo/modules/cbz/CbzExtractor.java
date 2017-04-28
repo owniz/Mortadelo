@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,7 +30,7 @@ public class CbzExtractor extends BaseExtractor {
     }
 
     @Override
-    public void extractComic(@NonNull Context context, final String pathComic,
+    public void extractComic(@NonNull Context context, String pathComic,
                              ComicExtractionUpdateListener comicExtractionUpdateListener) {
         new ExtractionTask(context, comicExtractionUpdateListener).execute(pathComic);
     }
@@ -78,13 +79,18 @@ public class CbzExtractor extends BaseExtractor {
                     }
 
                     pages.add(context.getFilesDir() + "/" + comic.getMD5hash() + "/" + (pageName) + ".png");
+
                     if (!exists) {
                         FileOutputStream fos = new FileOutputStream(pages.get(pageName++));
+                        BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-                        for (int i = zis.read(); i != -1; i = zis.read()) {
-                            fos.write(i);
+                        byte[] data = new byte[1024];
+
+                        for (int i = zis.read(data); i != -1; i = zis.read(data)) {
+                            bos.write(i);
                         }
 
+                        bos.close();
                         zis.closeEntry();
                         fos.close();
                     }
@@ -99,8 +105,8 @@ public class CbzExtractor extends BaseExtractor {
                     return null;
                 }
 
-                if (reverse)
-                    Collections.reverse(pages);
+               // if (reverse)
+                //    Collections.reverse(pages);
 
                 comic.setPages(pages);
 
