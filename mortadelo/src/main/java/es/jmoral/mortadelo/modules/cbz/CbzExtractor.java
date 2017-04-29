@@ -73,7 +73,7 @@ public class CbzExtractor extends BaseExtractor {
                         FileOutputStream fos = new FileOutputStream(pages.get(pageName++));
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-                        byte[] data = new byte[4096];
+                        byte[] data = new byte[8192];
                         int count;
 
                         while ((count = zis.read(data)) != -1) {
