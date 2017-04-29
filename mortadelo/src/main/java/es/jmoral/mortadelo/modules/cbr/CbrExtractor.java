@@ -1,7 +1,6 @@
 package es.jmoral.mortadelo.modules.cbr;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.github.junrar.extract.ExtractArchive;

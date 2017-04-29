@@ -1,7 +1,6 @@
 package es.jmoral.mortadelo.modules.cbz;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import java.io.BufferedOutputStream;
@@ -74,7 +73,7 @@ public class CbzExtractor extends BaseExtractor {
                         FileOutputStream fos = new FileOutputStream(pages.get(pageName++));
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-                        byte[] data = new byte[1024];
+                        byte[] data = new byte[4096];
                         int count;
 
                         while ((count = zis.read(data)) != -1) {
