@@ -85,14 +85,14 @@ public class CbzExtractor extends BaseExtractor {
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
 
                         byte[] data = new byte[1024];
+                        int count;
 
-                        for (int i = zis.read(data); i != -1; i = zis.read(data)) {
-                            bos.write(i);
+                        while ((count = zis.read(data)) != -1) {
+                            bos.write(data, 0, count);
                         }
 
+                        //zis.closeEntry();
                         bos.close();
-                        zis.closeEntry();
-                        fos.close();
                     }
 
                     elapsed += ze.getSize();
