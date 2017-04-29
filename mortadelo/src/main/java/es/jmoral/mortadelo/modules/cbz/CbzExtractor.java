@@ -56,9 +56,6 @@ public class CbzExtractor extends BaseExtractor {
                 FileInputStream fis = new FileInputStream(strings[0]);
                 zis = new ZipInputStream(fis);
                 ZipEntry ze;
-                long totalSize = fis.available();
-                long elapsed = 0;
-                int progress;
                 boolean exists = false;
 
                 comic.setMD5hash(MD5.calculateMD5(new File(strings[0])));
@@ -95,9 +92,7 @@ public class CbzExtractor extends BaseExtractor {
                         bos.close();
                     }
 
-                    elapsed += ze.getSize();
-                    progress = (int) ((elapsed * 100) / totalSize);
-                    publishProgress(progress);
+                    publishProgress(zis.available());
                 }
 
                 if (pages.size() == 0) {
