@@ -31,13 +31,10 @@ public class CbrExtractor extends BaseExtractor {
         new ExtractionTask(context, comicExtractionUpdateListener).execute(pathComic);
     }
 
-    private class ExtractionTask extends AsyncTask<String, Integer, Comic> {
-        private final Context context;
-        private final ComicExtractionUpdateListener comicExtractionUpdateListener;
+    private class ExtractionTask extends BaseAsyncTask {
 
         ExtractionTask(@NonNull Context context, ComicExtractionUpdateListener comicExtractionUpdateListener) {
-            this.context = context;
-            this.comicExtractionUpdateListener = comicExtractionUpdateListener;
+            super(context, comicExtractionUpdateListener);
         }
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -58,15 +55,13 @@ public class CbrExtractor extends BaseExtractor {
             ExtractArchive extractArchive = new ExtractArchive();
             extractArchive.extractArchive(rar, destinationFolder);
 
-            File pagesNam = new File(comicFolder.getAbsolutePath());
-            File[] listPages = pagesNam.listFiles();
+            File[] listPages = new File(comicFolder.getAbsolutePath()).listFiles();
 
-            if (listPages[0].isDirectory()) {
-                pagesNam = new File(listPages[0].getAbsolutePath());
-                listPages = pagesNam.listFiles();
-            }
+            if (listPages[0].isDirectory())
+                listPages = new File(listPages[0].getAbsolutePath()).listFiles();
 
             for (File file : listPages) {
+                publishProgress((int) (file.length() / 1024));
                 pages.add(file.getAbsolutePath());
             }
 
@@ -74,18 +69,6 @@ public class CbrExtractor extends BaseExtractor {
             comic.setPages(pages);
 
             return comic;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            comicExtractionUpdateListener.onExtractionUpdate(values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Comic comic) {
-            super.onPostExecute(comic);
-            comicReceivedListener.onComicReceived(comic);
         }
     }
 }

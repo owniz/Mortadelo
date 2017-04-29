@@ -34,13 +34,9 @@ public class CbzExtractor extends BaseExtractor {
         new ExtractionTask(context, comicExtractionUpdateListener).execute(pathComic);
     }
 
-    private class ExtractionTask extends AsyncTask<String, Integer, Comic> {
-        private final Context context;
-        private final ComicExtractionUpdateListener comicExtractionUpdateListener;
-
+    private class ExtractionTask extends BaseAsyncTask {
         ExtractionTask(@NonNull Context context, ComicExtractionUpdateListener comicExtractionUpdateListener) {
-            this.context = context;
-            this.comicExtractionUpdateListener = comicExtractionUpdateListener;
+            super(context, comicExtractionUpdateListener);
         }
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -111,18 +107,6 @@ public class CbzExtractor extends BaseExtractor {
             }
 
             return comic;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            comicExtractionUpdateListener.onExtractionUpdate(values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Comic comic) {
-            super.onPostExecute(comic);
-            comicReceivedListener.onComicReceived(comic);
         }
     }
 }
