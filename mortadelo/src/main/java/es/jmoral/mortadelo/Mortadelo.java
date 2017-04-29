@@ -48,7 +48,7 @@ public class Mortadelo {
     }
 
     public void obtainComic(@NonNull String pathComic) {
-        BaseExtractor extractor = null;
+        BaseExtractor extractor;
 
         switch (ComicExt.parseExt(pathComic)) {
             case CBR:
@@ -59,6 +59,8 @@ public class Mortadelo {
                 break;
             case UNKNOWN:
                 comicReceivedListener.onComicFailed("Unknown file type.");
+                return;
+            default:
                 return;
         }
 

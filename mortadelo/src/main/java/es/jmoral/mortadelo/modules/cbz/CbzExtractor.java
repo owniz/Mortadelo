@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -49,7 +48,6 @@ public class CbzExtractor extends BaseExtractor {
         protected Comic doInBackground(String... strings) {
             ArrayList<String> pages = new ArrayList<>();
             Comic comic = new Comic();
-            boolean reverse = false;
             ZipInputStream zis = null;
 
             try {
@@ -71,7 +69,6 @@ public class CbzExtractor extends BaseExtractor {
 
                 while ((ze = zis.getNextEntry()) != null) {
                     if (ze.isDirectory()) {
-                        reverse = true;
                         continue;
                     }
 
@@ -88,7 +85,6 @@ public class CbzExtractor extends BaseExtractor {
                             bos.write(data, 0, count);
                         }
 
-                        //zis.closeEntry();
                         bos.close();
                     }
 
@@ -99,9 +95,6 @@ public class CbzExtractor extends BaseExtractor {
                     comicReceivedListener.onComicFailed("Empty comic.");
                     return null;
                 }
-
-               // if (reverse)
-                //    Collections.reverse(pages);
 
                 comic.setPages(pages);
 
