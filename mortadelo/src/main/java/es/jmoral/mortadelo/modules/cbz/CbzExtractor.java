@@ -92,7 +92,7 @@ public class CbzExtractor extends BaseExtractor {
                         bos.close();
                     }
 
-                    publishProgress((int) (ze.getSize() / 1024));
+                    publishProgress((int) (ze.getSize() / 1024)); // KiB
                 }
 
                 if (pages.size() == 0) {
