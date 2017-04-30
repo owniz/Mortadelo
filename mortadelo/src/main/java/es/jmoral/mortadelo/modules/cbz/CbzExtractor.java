@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -60,20 +61,22 @@ public class CbzExtractor extends BaseExtractor {
                 else
                     exists = true;
 
-                int pageName = 0;
+                int pageNumber = 0;
 
                 while ((ze = zis.getNextEntry()) != null) {
                     if (ze.isDirectory()) {
                         continue;
                     }
 
-                    pages.add(context.getFilesDir() + "/" + comic.getMD5hash() + "/" + (pageName) + ".png");
+                    //pages.add(context.getFilesDir() + "/" + comic.getMD5hash() + "/" + pageNumber + ".png");
+                    String[] pageName = ze.getName().split("/");
+                    pages.add(context.getFilesDir() + "/" + comic.getMD5hash() + "/" + pageName[pageName.length - 1]);
 
                     if (!exists) {
-                        FileOutputStream fos = new FileOutputStream(pages.get(pageName++));
+                        FileOutputStream fos = new FileOutputStream(pages.get(pageNumber++));
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-                        byte[] data = new byte[8192];
+                        byte[] data = new byte[1024];
                         int count;
 
                         while ((count = zis.read(data)) != -1) {
@@ -86,11 +89,7 @@ public class CbzExtractor extends BaseExtractor {
                     publishProgress((int) (ze.getSize() / 1024)); // KiB
                 }
 
-                if (pages.size() == 0) {
-                    comicReceivedListener.onComicFailed("Empty comic.");
-                    return null;
-                }
-
+                Collections.sort(pages);
                 comic.setPages(pages);
 
             } catch (Exception e) {
