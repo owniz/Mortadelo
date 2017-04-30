@@ -68,7 +68,6 @@ public class CbzExtractor extends BaseExtractor {
                         continue;
                     }
 
-                    //pages.add(context.getFilesDir() + "/" + comic.getMD5hash() + "/" + pageNumber + ".png");
                     String[] pageName = ze.getName().split("/");
                     pages.add(context.getFilesDir() + "/" + comic.getMD5hash() + "/" + pageName[pageName.length - 1]);
 

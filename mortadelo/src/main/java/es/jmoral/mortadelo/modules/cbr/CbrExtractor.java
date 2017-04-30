@@ -3,9 +3,8 @@ package es.jmoral.mortadelo.modules.cbr;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.github.junrar.extract.ExtractArchive;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -14,6 +13,8 @@ import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.models.Comic;
 import es.jmoral.mortadelo.modules.BaseExtractor;
 import es.jmoral.mortadelo.utils.MD5;
+import junrar.exception.RarException;
+import junrar.extract.RarExtractor;
 
 /**
  * Created by owniz on 27/03/17.
@@ -51,8 +52,13 @@ public class CbrExtractor extends BaseExtractor {
                 comicFolder.mkdirs();
 
             final File destinationFolder = new File(comicFolder.getAbsolutePath());
-            ExtractArchive extractArchive = new ExtractArchive();
-            extractArchive.extractArchive(rar, destinationFolder);
+            try {
+                new RarExtractor().extractArchive(rar, destinationFolder);
+            } catch (RarException | IOException e) {
+                e.printStackTrace();
+            }
+            //ExtractArchive extractArchive = new ExtractArchive();
+            //extractArchive.extractArchive(rar, destinationFolder);
 
             File[] listPages = new File(comicFolder.getAbsolutePath()).listFiles();
 

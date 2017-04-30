@@ -1,1 +1,1 @@
-include ':app', ':mortadelo'
+include ':app', ':mortadelo', ':library'
