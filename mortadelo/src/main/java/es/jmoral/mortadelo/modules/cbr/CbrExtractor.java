@@ -13,6 +13,8 @@ import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.models.Comic;
 import es.jmoral.mortadelo.modules.BaseExtractor;
 import es.jmoral.mortadelo.utils.MD5;
+import junrar.UnrarCallback;
+import junrar.Volume;
 import junrar.exception.RarException;
 import junrar.extract.RarExtractor;
 
@@ -53,12 +55,20 @@ public class CbrExtractor extends BaseExtractor {
 
             final File destinationFolder = new File(comicFolder.getAbsolutePath());
             try {
-                new RarExtractor().extractArchive(rar, destinationFolder);
-            } catch (RarException | IOException e) {
-                e.printStackTrace();
+                new RarExtractor().extractArchive(rar, destinationFolder, new UnrarCallback() {
+                    @Override
+                    public boolean isNextVolumeReady(Volume volume) {
+                        return false;
+                    }
+
+                    @Override
+                    public void volumeProgressChanged(long current, long total) {
+                        publishProgress((int) (current / 1024)); // KiB
+                    }
+                });
+            } catch (Exception e) {
+                return null;
             }
-            //ExtractArchive extractArchive = new ExtractArchive();
-            //extractArchive.extractArchive(rar, destinationFolder);
 
             File[] listPages = new File(comicFolder.getAbsolutePath()).listFiles();
 
@@ -66,7 +76,6 @@ public class CbrExtractor extends BaseExtractor {
                 listPages = new File(listPages[0].getAbsolutePath()).listFiles();
 
             for (File file : listPages) {
-                publishProgress((int) (file.length() / 1024));
                 pages.add(file.getAbsolutePath());
             }
 

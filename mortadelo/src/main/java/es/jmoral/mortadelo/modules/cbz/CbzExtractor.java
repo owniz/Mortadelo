@@ -50,6 +50,7 @@ public class CbzExtractor extends BaseExtractor {
                 FileInputStream fis = new FileInputStream(strings[0]);
                 zis = new ZipInputStream(fis);
                 ZipEntry ze;
+                int elapsed = 0;
                 boolean exists = false;
 
                 comic.setMD5hash(MD5.calculateMD5(new File(strings[0])));
@@ -75,7 +76,7 @@ public class CbzExtractor extends BaseExtractor {
                         FileOutputStream fos = new FileOutputStream(pages.get(pageNumber++));
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-                        byte[] data = new byte[1024];
+                        byte[] data = new byte[4096];
                         int count;
 
                         while ((count = zis.read(data)) != -1) {
@@ -84,15 +85,14 @@ public class CbzExtractor extends BaseExtractor {
 
                         bos.close();
                     }
-
-                    publishProgress((int) (ze.getSize() / 1024)); // KiB
+                    elapsed += (int) (ze.getSize() / 1024);
+                    publishProgress(elapsed); // KiB
                 }
 
                 Collections.sort(pages);
                 comic.setPages(pages);
 
             } catch (Exception e) {
-                comicReceivedListener.onComicFailed(e.getMessage());
                 return null;
             } finally {
                 if (zis != null)

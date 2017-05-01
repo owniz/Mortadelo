@@ -43,7 +43,10 @@ public abstract class BaseExtractor {
         @Override
         protected void onPostExecute(Comic comic) {
             super.onPostExecute(comic);
-            comicReceivedListener.onComicReceived(comic);
+            if (comic == null || comic.getPages() == null)
+                comicReceivedListener.onComicFailed("The comic or its pages are null");
+            else
+                comicReceivedListener.onComicReceived(comic);
         }
     }
 }
