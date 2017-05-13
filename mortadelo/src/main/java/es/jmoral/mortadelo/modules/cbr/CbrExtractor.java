@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,7 +14,6 @@ import es.jmoral.mortadelo.modules.BaseExtractor;
 import es.jmoral.mortadelo.utils.MD5;
 import junrar.UnrarCallback;
 import junrar.Volume;
-import junrar.exception.RarException;
 import junrar.extract.RarExtractor;
 
 /**
