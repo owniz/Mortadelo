@@ -23,7 +23,7 @@ public class Mortadelo {
 
         static ComicExt parseExt(String pathComic) {
 
-            final String extension = pathComic.substring(pathComic.lastIndexOf(".") + 1);
+            final String extension = pathComic.substring(pathComic.lastIndexOf(".") + 1).toLowerCase();
 
             if (extension.length() == 0)
                 return UNKNOWN;
