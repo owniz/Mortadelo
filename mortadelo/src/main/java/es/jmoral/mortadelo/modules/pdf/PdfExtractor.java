@@ -19,7 +19,7 @@ public class PdfExtractor extends BaseExtractor {
 
     @Override
     public void extractComic(@NonNull Context context, String pathComic, ComicExtractionUpdateListener comicExtractionUpdateListener) {
-
+        // unused
     }
 
     private class ExtractionTask extends BaseAsyncTask {

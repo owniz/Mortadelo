@@ -22,7 +22,8 @@ public class Mortadelo {
         CBR, CBZ, UNKNOWN;
 
         static ComicExt parseExt(String pathComic) {
-            final String extension = pathComic.substring(pathComic.toLowerCase().lastIndexOf(".") + 1);
+
+            final String extension = pathComic.substring(pathComic.lastIndexOf(".") + 1);
 
             if (extension.length() == 0)
                 return UNKNOWN;
