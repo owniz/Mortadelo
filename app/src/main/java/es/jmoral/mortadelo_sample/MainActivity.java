@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ComicExtractionUp
             public void onComicFailed(String message) {
                 Log.d("error", message);
             }
-        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/kinSin.CBZ");
+        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/Asesin.cbz");
     }
 
     @Override

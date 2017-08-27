@@ -10,7 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import es.jmoral.mortadelo.listeners.ComicExtractionUpdateListener;
@@ -64,7 +66,12 @@ public class CbzExtractor extends BaseExtractor {
 
                 int pageNumber = 0;
 
-                while ((ze = zis.getNextEntry()) != null) {
+                ZipFile zipFile = new ZipFile(strings[0]);
+                Enumeration entries = zipFile.entries();
+
+                while (entries.hasMoreElements()) {
+                    ze = (ZipEntry) entries.nextElement();
+                    zis.getNextEntry();
                     if (ze.isDirectory()) {
                         continue;
                     }
