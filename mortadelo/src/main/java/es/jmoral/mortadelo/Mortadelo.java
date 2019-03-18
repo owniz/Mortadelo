@@ -3,6 +3,10 @@ package es.jmoral.mortadelo;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import es.jmoral.mortadelo.listeners.ComicExtractionUpdateListener;
 import es.jmoral.mortadelo.listeners.ComicReceivedListener;
 import es.jmoral.mortadelo.modules.BaseExtractor;
@@ -20,6 +24,42 @@ public class Mortadelo {
 
     private enum ComicExt {
         CBR, CBZ, UNKNOWN;
+
+        static ComicExt parseMagicNumber(String pathComic) {
+            byte[] buffer = new byte[7];
+            InputStream is = null;
+            ComicExt comicExt = UNKNOWN;
+            try {
+                is = new FileInputStream(pathComic);
+
+                if (is.read(buffer) >= buffer.length) {
+                    String stringHex = bytesToHex(buffer).toUpperCase();
+                    if (stringHex.startsWith("504B0304"))
+                        comicExt = CBZ;
+                    else if (stringHex.startsWith("526172211A0700"))
+                        comicExt = CBR;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null)
+                        is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return comicExt.equals(UNKNOWN) ? parseExt(pathComic) : comicExt;
+        }
+
+        private static String bytesToHex(byte[] in) {
+            final StringBuilder builder = new StringBuilder();
+            for(byte b : in) {
+                builder.append(String.format("%02x", b));
+            }
+            return builder.toString();
+        }
 
         static ComicExt parseExt(String pathComic) {
 
@@ -51,7 +91,7 @@ public class Mortadelo {
     public void obtainComic(@NonNull String pathComic) {
         BaseExtractor extractor;
 
-        switch (ComicExt.parseExt(pathComic)) {
+        switch (ComicExt.parseMagicNumber(pathComic)) {
             case CBR:
                 extractor = new CbrExtractor(comicReceivedListener);
                 break;

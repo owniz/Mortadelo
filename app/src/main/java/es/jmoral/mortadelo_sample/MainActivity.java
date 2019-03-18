@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ComicExtractionUp
             public void onComicFailed(String message) {
                 Log.d("error", message);
             }
-        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbr");
+        }, this).obtainComic(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/test.cbz");
     }
 
     @Override
